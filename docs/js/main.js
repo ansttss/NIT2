@@ -45,7 +45,7 @@
     }
 
     jQuery.ajax({
-        url: "http://nit.tron.net.ua/api/product/list",
+        url: "https://nit.tron.net.ua/api/product/list",
         method: "get",
         dataType: "json",
         success: function (t) {
@@ -64,7 +64,7 @@
     }
 
     jQuery.ajax({
-        url: "http://nit.tron.net.ua/api/category/list",
+        url: "https://nit.tron.net.ua/api/category/list",
         method: "get",
         dataType: "json",
         success: function (t) {
@@ -82,7 +82,7 @@
     }), $(document).on("click", ".addToCart", function () {
         !function (t) {
             o = document.getElementById("categoriesList").value, jQuery.ajax({
-                url: "http://nit.tron.net.ua/api/product/list/category/" + o,
+                url: "https://nit.tron.net.ua/api/product/list/category/" + o,
                 method: "get",
                 dataType: "json",
                 success: function (e) {
@@ -96,15 +96,15 @@
                         t.innerHTML = "";
                         for (var e = 0, n = 0, o = 0; o < c.length; o++) {
                             n = null != c[o].special_price ? c[o].special_price : c[o].price, e += Number(n);
-                            for (var r = !1, a = 0; a < l.length; a++) if (c[o].id == l[a].id) {
+                            for (var r = !1, a = 0; a < u.length; a++) if (c[o].id == u[a].id) {
                                 r = !0;
                                 break
                             }
-                            r || l.push(c[o])
+                            r || u.push(c[o])
                         }
-                        for (var i = 0, o = 0; o < l.length; o++) {
-                            for (var u = 0, a = 0; a < c.length; a++) l[o].id == c[a].id && u++, l[o].count = u;
-                            i = null != l[o].special_price ? l[o].special_price : l[o].price, t.innerHTML += '<a href="javascript:void(0)" class="closebtn closeCat">&times;</a><div class="row"><div class="col-8 text-left cartProduct">' + l[o].name + '</div><div class="col-2 text-center cartProduct">X' + u + '</div><div class="col-2 text-right cartProduct">' + i + "</div></div>"
+                        for (var i = 0, o = 0; o < u.length; o++) {
+                            for (var l = 0, a = 0; a < c.length; a++) u[o].id == c[a].id && l++, u[o].count = l;
+                            i = null != u[o].special_price ? u[o].special_price : u[o].price, t.innerHTML += '<a href="javascript:void(0)" class="closebtn closeCat">&times;</a><div class="row"><div class="col-8 text-left cartProduct">' + u[o].name + '</div><div class="col-2 text-center cartProduct">X' + l + '</div><div class="col-2 text-right cartProduct">' + i + "</div></div>"
                         }
                         t.innerHTML += '<div class="col-12 text-center cartProduct">Total ' + e + ".00 UAH</div><br><br><br>", t.innerHTML += '<div class="send"><p class="form">Your name</p><input type="text" id="name"><p class="form">Your email</p><input type="text" id="email"><p class="form">Your phone number</p><input type="text" id="phone"> <br><button type="submit" class="btn red-button submit"> Submit </button> </div>'
                     }()
@@ -120,7 +120,7 @@
         i()
     }), $(document).on("change", ".changeCat", function () {
         o = document.getElementById("categoriesList").value, jQuery.ajax({
-            url: "http://nit.tron.net.ua/api/product/list/category/" + o,
+            url: "https://nit.tron.net.ua/api/product/list/category/" + o,
             method: "get",
             dataType: "json",
             success: function (t) {
@@ -141,14 +141,16 @@
                 phone: e,
                 email: n,
                 token: "iuf5kCfRpfkGjMna5e19"
-            }, console.log(l), Object.keys(l)) o["products[" + l[r].id + "]"] = l[r].count;
-            console.log(o), $.ajax({
+            }, Object.keys(u)) o["products[" + u[r].id + "]"] = u[r].count;
+            $.ajax({
                 url: "https://nit.tron.net.ua/api/order/add",
                 method: "post",
                 data: o,
                 dataType: "json",
                 success: function (t) {
-                    console.log(t)
+                    console.log(t), alert("Your order is accepted"), $("#name").val(""), $("#phone").val(""), $("#email").val(""), c = [];
+                    var e = document.getElementById("cartPopup");
+                    e.innerHTML = "Your cart is empty"
                 }
             })
         }()
@@ -156,5 +158,5 @@
         t.clientX > 500 && i()
     };
     var c = [];
-    var l = []
+    var u = []
 }]);

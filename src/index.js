@@ -1,7 +1,7 @@
 var products = [];
 var category_id = 1;
 jQuery.ajax({
-    url: 'http://nit.tron.net.ua/api/product/list',
+    url: 'https://nit.tron.net.ua/api/product/list',
     method: 'get',
     dataType: 'json',
     success: function (json) {
@@ -20,7 +20,7 @@ jQuery.ajax({
 function changeCategories() {
     category_id = document.getElementById('categoriesList').value;
     jQuery.ajax({
-        url: 'http://nit.tron.net.ua/api/product/list/category/' + category_id,
+        url: 'https://nit.tron.net.ua/api/product/list/category/' + category_id,
         method: 'get',
         dataType: 'json',
         success: function (json) {
@@ -67,7 +67,7 @@ function Category(id, name, description) {
 }
 
 jQuery.ajax({
-    url: 'http://nit.tron.net.ua/api/category/list',
+    url: 'https://nit.tron.net.ua/api/category/list',
     method: 'get',
     dataType: 'json',
     success: function (json) {
@@ -134,7 +134,7 @@ var boughtProducts = [];
 function buy(productID) {
     category_id = document.getElementById('categoriesList').value;
     jQuery.ajax({
-        url: 'http://nit.tron.net.ua/api/product/list/category/' + category_id,
+        url: 'https://nit.tron.net.ua/api/product/list/category/' + category_id,
         method: 'get',
         dataType: 'json',
         success: function (json) {
@@ -207,12 +207,12 @@ function submitOrder() {
         email: email,
         token: "iuf5kCfRpfkGjMna5e19"
     };
-    console.log(uniqueProd);
+    //console.log(uniqueProd);
 
     for (var k in Object.keys(uniqueProd)) {
         postSend["products[" + uniqueProd[k].id + "]"] = uniqueProd[k].count;
     }
-    console.log(postSend);
+    //console.log(postSend);
     $.ajax({
         url: 'https://nit.tron.net.ua/api/order/add',
         method: 'post',
@@ -220,7 +220,16 @@ function submitOrder() {
         dataType: 'json',
         success: function (json) {
             console.log(json);
+            alert("Your order is accepted");
+            $('#name').val("");
+            $('#phone').val("");
+            $('#email').val("");
+            boughtProducts = [];
+            var cart = document.getElementById('cartPopup');
+            cart.innerHTML = "Your cart is empty";
         },
     });
 
+
 }
+
